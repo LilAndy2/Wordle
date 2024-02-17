@@ -9,9 +9,9 @@ class LaunchFrame extends JFrame implements Frame {
     private final MyButton instructionsButton;
     public LaunchFrame() {
         this.startButton = new MyButton("Start", 100, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255));
+                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
         this.instructionsButton = new MyButton("Instructions", 775, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255));
+                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -39,7 +39,7 @@ class InstructionsFrame extends JFrame implements Frame {
     private final MyButton backButton;
     public InstructionsFrame() {
         this.backButton = new MyButton("Go back", 0, 0, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255));
+                Font.BOLD, 20), new Color(18,18,18,255), new Color(255,255,255));
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);

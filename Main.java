@@ -8,6 +8,10 @@ public class Main {
         launchPage.getFrame().getInstructionsButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
             InstructionsPage instructionsPage = new InstructionsPage();
+            instructionsPage.getFrame().getBackButton().addActionListener(e1 -> {
+                instructionsPage.getFrame().dispose();
+                launchPage.getFrame().setVisible(true);
+            });
         });
     }
 }
