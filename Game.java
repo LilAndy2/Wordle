@@ -27,7 +27,8 @@ public class Game {
         wordReader.close();
     }
     public String chooseReferenceWord() {
-        int randomNumber = new Random().nextInt(this.words.size());
-        return this.words.get(randomNumber);
+        Random random = new Random();
+        int randomNumber = random.nextInt(this.words.size());
+        return this.words.get(randomNumber).toUpperCase();
     }
 }

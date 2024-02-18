@@ -64,7 +64,6 @@ class WordboardPanel extends JPanel implements Panel {
                 MyLabel label = new MyLabel(null, "", JLabel.CENTER, JLabel.CENTER, new Color(255, 255, 255),
                         new Font("Times New Roman", Font.PLAIN, 20), 0, new Color(18, 18, 18, 255), JLabel.CENTER,
                         JLabel.CENTER, 0, 0, 0, 0);
-                //label.setBorder(border);
 
                 JPanel panel = new JPanel();
                 panel.setBackground(new Color(18,18,18,255));
