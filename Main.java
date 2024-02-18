@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,9 +8,27 @@ public class Main {
         launchPage.getFrame().getStartButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
             GamePage gamePage = new GamePage();
-            gamePage.getFrame().getEasyButton().addActionListener(e1 -> startGame(gamePage, "easy"));
-            gamePage.getFrame().getMediumButton().addActionListener(e1 -> startGame(gamePage, "medium"));
-            gamePage.getFrame().getHardButton().addActionListener(e1 -> startGame(gamePage, "hard"));
+            gamePage.getFrame().getEasyButton().addActionListener(e1 -> {
+                try {
+                    startGame(gamePage, "easy");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            gamePage.getFrame().getMediumButton().addActionListener(e1 -> {
+                try {
+                    startGame(gamePage, "medium");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            gamePage.getFrame().getHardButton().addActionListener(e1 -> {
+                try {
+                    startGame(gamePage, "hard");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
         });
         launchPage.getFrame().getInstructionsButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
@@ -20,9 +39,8 @@ public class Main {
             });
         });
     }
-    public static void startGame(GamePage gamePage, String difficulty) {
+    public static void startGame(GamePage gamePage, String difficulty) throws IOException {
         KeyboardPanel keyboard = new KeyboardPanel();
-        //keyboard.setLayout(new GridLayout(4, 10, 10, 10));
         keyboard.setBackground(new Color(18,18,18,255));
         keyboard.setBounds(250, 700, 500, 200);
         keyboard.setVisible(true);
@@ -48,5 +66,8 @@ public class Main {
         gamePage.getFrame().add(wordboard);
         gamePage.getFrame().revalidate();
         gamePage.getFrame().repaint();
+
+        Game game = new Game(difficulty);
+        String referenceWord = game.chooseReferenceWord();
     }
 }

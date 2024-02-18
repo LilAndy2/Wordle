@@ -20,7 +20,7 @@ class LaunchFrame extends JFrame implements Frame {
         this.setVisible(true);
         this.setLayout(null);
 
-        ImageIcon icon = new ImageIcon("utils/logo.jpg");
+        ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(new Color(18,18,18,255));
 
@@ -48,7 +48,7 @@ class InstructionsFrame extends JFrame implements Frame {
         this.setVisible(true);
         this.setLayout(null);
 
-        ImageIcon icon = new ImageIcon("utils/logo.jpg");
+        ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(new Color(18,18,18,255));
 
@@ -77,7 +77,7 @@ class GameFrame extends JFrame implements Frame {
         this.setVisible(true);
         this.setLayout(null);
 
-        ImageIcon icon = new ImageIcon("utils/logo.jpg");
+        ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(new Color(18,18,18,255));
 
