@@ -21,13 +21,16 @@ public class Main {
         });
     }
     public static void startGame(GamePage gamePage, String difficulty) {
-        gamePage.getFrame().getEasyButton().setVisible(false);
-        gamePage.getFrame().getMediumButton().setVisible(false);
-        gamePage.getFrame().getHardButton().setVisible(false);
-
         KeyboardPanel keyboard = new KeyboardPanel();
         keyboard.setLayout(new GridLayout(4, 10, 10, 10));
         keyboard.setBackground(new Color(18,18,18,255));
+        keyboard.setBounds(250, 700, 500, 200);
+        keyboard.setVisible(true);
+
+        gamePage.getFrame().getContentPane().removeAll();
         gamePage.getFrame().add(keyboard);
+
+        gamePage.getFrame().revalidate();
+        gamePage.getFrame().repaint();
     }
 }

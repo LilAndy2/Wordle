@@ -63,7 +63,6 @@ class GameFrame extends JFrame implements Frame {
     private final MyButton easyButton;
     private final MyButton mediumButton;
     private final MyButton hardButton;
-    //private final KeyboardPanel keyboard;
     public GameFrame() {
         this.easyButton = new MyButton("Easy", 100, 800, 125, 50, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
@@ -81,12 +80,6 @@ class GameFrame extends JFrame implements Frame {
         ImageIcon icon = new ImageIcon("utils/logo.jpg");
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(new Color(18,18,18,255));
-
-//        this.keyboard = new KeyboardPanel();
-//        this.keyboard.setLayout(new GridLayout(4, 10, 10, 10));
-//        this.keyboard.setBackground(new Color(18,18,18,255));
-//        this.keyboard.setVisible(false);
-//        this.add(this.keyboard);
 
         this.add(this.easyButton);
         this.add(this.mediumButton);

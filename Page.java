@@ -51,11 +51,7 @@ class InstructionsPage implements Page {
 class GamePage implements Page {
     private final GameFrame frame;
     public GamePage() {
-
-        //keyboard.setVisible(false);
-
         this.frame = new GameFrame();
-        //this.frame.add(keyboard);
     }
     GameFrame getFrame() {
         return this.frame;
