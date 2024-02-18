@@ -62,7 +62,7 @@ public class Main {
 
         WordboardPanel wordboard = new WordboardPanel(wordLength);
         wordboard.setBackground(new Color(18,18,18,255));
-        wordboard.setBounds(250, 100, 500, 500);
+        wordboard.setBounds(300, 200, 400, 400);
         wordboard.setVisible(true);
 
         gamePage.getFrame().add(wordboard);
@@ -81,6 +81,7 @@ public class Main {
         final int[] pressedEnterCount = {0};
         final boolean[] gameWon = {false};
         final JButton[] lastButtonClicked = {null};
+        final boolean[] flag = {false};
 
         ArrayList<JButton> buttons = keyboard.getButtons();
         for (JButton button : buttons) {
@@ -89,7 +90,8 @@ public class Main {
             button.addActionListener(e -> {
                 if (button.getText().equals("Enter")) {
                     if (!(columnCount[0] == finalWordLength)) {
-                        // Display a message "Not enough letters!"
+                        flag[0] = true;
+                        JOptionPane.showMessageDialog(null, "Not enough letters!", "Warning", JOptionPane.WARNING_MESSAGE);
                     } else {
                         pressedEnterCount[0]++;
                         int correctLetterCount = 0;
@@ -110,7 +112,37 @@ public class Main {
                         }
 
                         if (gameWon[0]) {
-                            // Display a message "You won!"
+                            String[] options = {"Play again", "Exit"};
+                            ImageIcon icon = new ImageIcon("utils/images/happy.png");
+                            int answer = JOptionPane.showOptionDialog(null, "You won!", "Congratulations",
+                                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, options, 0);
+                            gamePage.getFrame().dispose();
+                            if (answer == 0) {
+                                GamePage newGamePage = new GamePage();
+                                newGamePage.getFrame().getEasyButton().addActionListener(e1 -> {
+                                    try {
+                                        startGame(newGamePage, "easy");
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                });
+                                newGamePage.getFrame().getMediumButton().addActionListener(e1 -> {
+                                    try {
+                                        startGame(newGamePage, "medium");
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                });
+                                newGamePage.getFrame().getHardButton().addActionListener(e1 -> {
+                                    try {
+                                        startGame(newGamePage, "hard");
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                });
+                            } else {
+                                Main.main(null);
+                            }
                         }
 
                         if (pressedEnterCount[0] == 6 && !gameWon[0]) {
@@ -119,9 +151,18 @@ public class Main {
                     }
                     lastButtonClicked[0] = button;
                 } else if (button.getText().equals("Delete")) {
+                    boolean deletedOnce = false;
                     if (lastButtonClicked[0] != null && !lastButtonClicked[0].getText().equals("Enter") && columnCount[0] != 0) {
                         wordboard.getLabels()[rowCount[0]][columnCount[0] - 1].setText("");
                         columnCount[0]--;
+                        deletedOnce = true;
+                        lastButtonClicked[0] = button;
+                    }
+                    if (flag[0] && !deletedOnce) {
+                        wordboard.getLabels()[rowCount[0]][columnCount[0] - 1].setText("");
+                        columnCount[0]--;
+                        flag[0] = false;
+                        lastButtonClicked[0] = button;
                     }
                 } else {
                     if (columnCount[0] == finalWordLength) {
