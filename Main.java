@@ -10,27 +10,8 @@ public class Main {
         launchPage.getFrame().getStartButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
             GamePage gamePage = new GamePage();
-            gamePage.getFrame().getEasyButton().addActionListener(e1 -> {
-                try {
-                    startGame(gamePage, "easy");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-            gamePage.getFrame().getMediumButton().addActionListener(e1 -> {
-                try {
-                    startGame(gamePage, "medium");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-            gamePage.getFrame().getHardButton().addActionListener(e1 -> {
-                try {
-                    startGame(gamePage, "hard");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
+            chooseDifficulty(gamePage);
+
         });
         launchPage.getFrame().getInstructionsButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
@@ -119,34 +100,24 @@ public class Main {
                             gamePage.getFrame().dispose();
                             if (answer == 0) {
                                 GamePage newGamePage = new GamePage();
-                                newGamePage.getFrame().getEasyButton().addActionListener(e1 -> {
-                                    try {
-                                        startGame(newGamePage, "easy");
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
-                                });
-                                newGamePage.getFrame().getMediumButton().addActionListener(e1 -> {
-                                    try {
-                                        startGame(newGamePage, "medium");
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
-                                });
-                                newGamePage.getFrame().getHardButton().addActionListener(e1 -> {
-                                    try {
-                                        startGame(newGamePage, "hard");
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
-                                });
+                                chooseDifficulty(newGamePage);
                             } else {
                                 Main.main(null);
                             }
                         }
 
-                        if (pressedEnterCount[0] == 6 && !gameWon[0]) {
-                            // Display a message "You lost! The word was x"
+                        if (pressedEnterCount[0] == finalWordLength && !gameWon[0]) {
+                            String[] options = {"Play again", "Exit"};
+                            ImageIcon icon = new ImageIcon("utils/images/sad.png");
+                            int answer = JOptionPane.showOptionDialog(null, "You ran out of guesses! You lost!", "Sorry",
+                                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, options, 0);
+                            gamePage.getFrame().dispose();
+                            if (answer == 0) {
+                                GamePage newGamePage = new GamePage();
+                                chooseDifficulty(newGamePage);
+                            } else {
+                                Main.main(null);
+                            }
                         }
                     }
                     lastButtonClicked[0] = button;
@@ -177,5 +148,28 @@ public class Main {
                 }
             });
         }
+    }
+    public static void chooseDifficulty(GamePage gamePage) {
+        gamePage.getFrame().getEasyButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "easy");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        gamePage.getFrame().getMediumButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "medium");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        gamePage.getFrame().getHardButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "hard");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 }
