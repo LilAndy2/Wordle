@@ -55,15 +55,17 @@ class KeyboardPanel extends JPanel implements Panel {
 
 class WordboardPanel extends JPanel implements Panel {
     private final JLabel[][] labels;
+    private final JPanel[][] panels;
     public WordboardPanel(int wordLength) {
         labels = new JLabel[wordLength][wordLength];
+        panels = new JPanel[wordLength][wordLength];
         this.setLayout(new GridLayout(wordLength, wordLength, 10, 10));
         for (int i = 0; i < wordLength; i++) {
             for (int j = 0; j < wordLength; j++) {
                 Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
                 MyLabel label = new MyLabel(null, "", JLabel.CENTER, JLabel.CENTER, new Color(255, 255, 255),
-                        new Font("Times New Roman", Font.PLAIN, 20), 0, new Color(18, 18, 18, 255), JLabel.CENTER,
-                        JLabel.CENTER, 0, 0, 0, 0);
+                        new Font("Arial OS Bold", Font.PLAIN, 45), 0, new Color(18, 18, 18, 255),
+                        JLabel.CENTER, JLabel.CENTER, 0, 0, 0, 0);
 
                 JPanel panel = new JPanel();
                 panel.setBackground(new Color(18,18,18,255));
@@ -73,10 +75,14 @@ class WordboardPanel extends JPanel implements Panel {
 
                 this.add(panel);
                 labels[i][j] = label;
+                panels[i][j] = panel;
             }
         }
     }
     public JLabel[][] getLabels() {
         return this.labels;
+    }
+    public JPanel[][] getPanels() {
+        return this.panels;
     }
 }

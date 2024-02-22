@@ -79,12 +79,15 @@ public class Main {
 
                         for (int i = 0; i < finalWordLength; i++) {
                             if (wordboard.getLabels()[rowCount[0]][i].getText().equals(referenceWordLetters.get(i))) {
-                                wordboard.getLabels()[rowCount[0]][i].setForeground(Color.GREEN);
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
                                 correctLetterCount++;
                             } else if (referenceWordLetters.contains(wordboard.getLabels()[rowCount[0]][i].getText())) {
-                                wordboard.getLabels()[rowCount[0]][i].setForeground(Color.YELLOW);
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
                             } else {
-                                wordboard.getLabels()[rowCount[0]][i].setForeground(Color.RED);
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
                             }
                         }
 
