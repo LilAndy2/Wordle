@@ -8,9 +8,9 @@ class LaunchFrame extends JFrame implements Frame {
     private final MyButton startButton;
     private final MyButton instructionsButton;
     public LaunchFrame() {
-        this.startButton = new MyButton("Start", 100, 800, 125, 50, new Font("Times New Roman",
+        this.startButton = new MyButton("Start", 300, 800, 125, 50, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
-        this.instructionsButton = new MyButton("Instructions", 775, 800, 125, 50, new Font("Times New Roman",
+        this.instructionsButton = new MyButton("Instructions", 575, 800, 125, 50, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

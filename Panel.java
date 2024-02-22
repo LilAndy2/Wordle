@@ -38,22 +38,18 @@ class KeyboardPanel extends JPanel implements Panel {
         enterPanel.setBackground(Color.GRAY);
         enterPanel.add(enterButton, BorderLayout.CENTER);
 
-        //this.add(enterPanel);
         this.buttons.add(enterButton);
         this.panels.add(enterPanel);
 
         MyButton deleteButton = new MyButton("Delete", 0, 0, 0, 0, new Font("Times New Roman",
                 Font.BOLD, 20), Color.GRAY, new Color(255,255,255));
         deleteButton.setOpaque(false);
-        //deleteButton.setPreferredSize(new Dimension(64, 50));
 
         JPanel deletePanel = new JPanel(new BorderLayout());
         deletePanel.setVisible(true);
         deletePanel.setBackground(Color.GRAY);
         deletePanel.add(deleteButton, BorderLayout.CENTER);
-        //deletePanel.setBounds(0, 0, 64, 50);
 
-        //this.add(deletePanel);
         this.buttons.add(deleteButton);
         this.panels.add(deletePanel);
 

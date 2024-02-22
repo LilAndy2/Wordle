@@ -55,6 +55,8 @@ public class Main {
 
         gamePage.getFrame().getContentPane().removeAll();
         gamePage.getFrame().add(keyboard);
+        gamePage.getFrame().add(gamePage.getLine());
+        gamePage.getFrame().add(gamePage.getTitleText());
         gamePage.getFrame().revalidate();
         gamePage.getFrame().repaint();
 
@@ -130,6 +132,9 @@ public class Main {
                         if (gameWon[0]) {
                             String[] options = {"Play again", "Exit"};
                             ImageIcon icon = new ImageIcon("utils/images/happy.png");
+                            Image image = icon.getImage();
+                            Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                            icon = new ImageIcon(newImage);
                             int answer = JOptionPane.showOptionDialog(null, "You won!", "Congratulations",
                                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, options, 0);
                             gamePage.getFrame().dispose();
@@ -144,7 +149,11 @@ public class Main {
                         if (pressedEnterCount[0] == finalWordLength && !gameWon[0]) {
                             String[] options = {"Play again", "Exit"};
                             ImageIcon icon = new ImageIcon("utils/images/sad.png");
-                            int answer = JOptionPane.showOptionDialog(null, "You ran out of guesses! You lost!", "Sorry",
+                            Image image = icon.getImage();
+                            Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                            icon = new ImageIcon(newImage);
+                            int answer = JOptionPane.showOptionDialog(null, "You ran out of guesses! You lost!\n" +
+                                            "The correct word was " + referenceWord, "Sorry",
                                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, options, 0);
                             gamePage.getFrame().dispose();
                             if (answer == 0) {
