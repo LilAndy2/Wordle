@@ -50,7 +50,7 @@ public class Main {
     public static void startGame(GamePage gamePage, String difficulty) throws IOException {
         KeyboardPanel keyboard = new KeyboardPanel();
         keyboard.setBackground(new Color(18,18,18,255));
-        keyboard.setBounds(250, 700, 500, 200);
+        keyboard.setBounds(260, 700, 480, 210);
         keyboard.setVisible(true);
 
         gamePage.getFrame().getContentPane().removeAll();
