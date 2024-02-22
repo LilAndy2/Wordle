@@ -22,6 +22,31 @@ public class Main {
             });
         });
     }
+
+    public static void chooseDifficulty(GamePage gamePage) {
+        gamePage.getFrame().getEasyButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "easy");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        gamePage.getFrame().getMediumButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "medium");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        gamePage.getFrame().getHardButton().addActionListener(e1 -> {
+            try {
+                startGame(gamePage, "hard");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+    }
+
     public static void startGame(GamePage gamePage, String difficulty) throws IOException {
         KeyboardPanel keyboard = new KeyboardPanel();
         keyboard.setBackground(new Color(18,18,18,255));
@@ -78,16 +103,23 @@ public class Main {
                         int correctLetterCount = 0;
 
                         for (int i = 0; i < finalWordLength; i++) {
+                            ArrayList<JPanel> keyboardPanels = keyboard.getPanels();
                             if (wordboard.getLabels()[rowCount[0]][i].getText().equals(referenceWordLetters.get(i))) {
                                 wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
                                 wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
                                 correctLetterCount++;
+                                JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
+                                panel.setBackground(new Color(83,141,78,255));
                             } else if (referenceWordLetters.contains(wordboard.getLabels()[rowCount[0]][i].getText())) {
                                 wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
                                 wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
+                                JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
+                                panel.setBackground(new Color(181,159,59,255));
                             } else {
                                 wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
                                 wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
+                                JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
+                                panel.setBackground(new Color(58,58,60,255));
                             }
                         }
 
@@ -139,40 +171,24 @@ public class Main {
                         lastButtonClicked[0] = button;
                     }
                 } else {
+                    boolean isFull = false;
                     if (columnCount[0] == finalWordLength) {
-                        columnCount[0] = 0;
-                        rowCount[0]++;
+                        if (lastButtonClicked[0].getText().equals("Enter") || lastButtonClicked[0].getText().equals("Delete")) {
+                            columnCount[0] = 0;
+                            rowCount[0]++;
+                        } else {
+                            isFull = true;
+                        }
                     }
-                    character[0] = button.getText();
-                    System.out.println(character[0]);
-                    wordboard.getLabels()[rowCount[0]][columnCount[0]].setText(String.valueOf(character[0]));
-                    columnCount[0]++;
-                    lastButtonClicked[0] = button;
+
+                    if (!isFull) {
+                        character[0] = button.getText();
+                        wordboard.getLabels()[rowCount[0]][columnCount[0]].setText(String.valueOf(character[0]));
+                        columnCount[0]++;
+                        lastButtonClicked[0] = button;
+                    }
                 }
             });
         }
-    }
-    public static void chooseDifficulty(GamePage gamePage) {
-        gamePage.getFrame().getEasyButton().addActionListener(e1 -> {
-            try {
-                startGame(gamePage, "easy");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        gamePage.getFrame().getMediumButton().addActionListener(e1 -> {
-            try {
-                startGame(gamePage, "medium");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        gamePage.getFrame().getHardButton().addActionListener(e1 -> {
-            try {
-                startGame(gamePage, "hard");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
     }
 }
