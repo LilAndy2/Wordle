@@ -64,6 +64,7 @@ public class Main {
         keyboard.setBackground(new Color(18,18,18,255));
         keyboard.setBounds(260, 700, 480, 210);
         keyboard.setVisible(true);
+        gamePage.setKeyboard(keyboard);
 
         int wordLength = 0;
         switch (difficulty) {
@@ -75,6 +76,7 @@ public class Main {
         wordboard.setBackground(new Color(18,18,18,255));
         wordboard.setBounds(300, 200, 400, 400);
         wordboard.setVisible(true);
+        gamePage.setWordboard(wordboard);
 
         MyButton settingsButton = gamePage.getSettingsButton();
         gamePage.setButton(gamePage, settingsButton, wordboard, keyboard);
@@ -93,6 +95,7 @@ public class Main {
         gamePage.getFrame().repaint();
 
         Game game = new Game(difficulty);
+        gamePage.setGame(game);
         String referenceWord = game.chooseReferenceWord();
         System.out.println(referenceWord);
         ReferenceWord myWord = new ReferenceWord(referenceWord);
@@ -105,11 +108,10 @@ public class Main {
         final boolean[] gameWon = {false};
         final JButton[] lastButtonClicked = {null};
         final boolean[] flag = {false};
+        int finalWordLength = wordLength;
 
         ArrayList<JButton> buttons = keyboard.getButtons();
         for (JButton button : buttons) {
-            int finalWordLength = wordLength;
-
             button.addActionListener(e -> {
                 if (button.getText().equals("Enter")) {
                     if (!(columnCount[0] == finalWordLength)) {

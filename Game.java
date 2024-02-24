@@ -31,4 +31,7 @@ public class Game {
         int randomNumber = random.nextInt(this.words.size());
         return this.words.get(randomNumber).toUpperCase();
     }
+    public int getWordLength() {
+        return this.difficulty.equals("easy") ? 4 : this.difficulty.equals("medium") ? 5 : 6;
+    }
 }

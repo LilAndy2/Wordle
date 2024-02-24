@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,12 +107,24 @@ class GamePage implements Page, ActionListener {
     private final JLabel titleText;
     private final MyButton settingsButton;
     private final MyButton instructionsButton;
+    private KeyboardPanel keyboard;
+    private WordboardPanel wordboard;
+    private Game game;
     private final JRadioButton darkMode;
     private final JRadioButton colorBlindMode;
     private boolean darkModeEnabled;
     private boolean colorBlindModeEnabled;
+    public void setKeyboard(KeyboardPanel keyboard) {
+        this.keyboard = keyboard;
+    }
+    public void setWordboard(WordboardPanel wordboard) {
+        this.wordboard = wordboard;
+    }
+    public void setGame(Game game) {
+        this.game = game;
+    }
     public GamePage() {
-        this.darkMode = new JRadioButton("Enable Dark Mode");
+        this.darkMode = new JRadioButton("Enable Light Mode");
         this.colorBlindMode = new JRadioButton("Enable Color Blind Mode");
 
         this.darkModeEnabled = false;
@@ -255,11 +268,13 @@ class GamePage implements Page, ActionListener {
         this.darkMode.setBackground(new Color(18,18,18,255));
         this.darkMode.setForeground(Color.WHITE);
         this.darkMode.setBounds(300, 140, 300, 20);
+        this.darkMode.addActionListener(this);
 
         this.colorBlindMode.setFont(new Font("Times New Roman", Font.PLAIN, 30));
         this.colorBlindMode.setBackground(new Color(18,18,18,255));
         this.colorBlindMode.setForeground(Color.WHITE);
         this.colorBlindMode.setBounds(300, 180, 350, 20);
+        this.colorBlindMode.addActionListener(this);
 
         ArrayList<Component> components = new ArrayList<>();
         components.add(backButton);
@@ -285,12 +300,57 @@ class GamePage implements Page, ActionListener {
 //            }
         } else if (e.getSource() == this.colorBlindMode) {
             setColorBlindModeEnabled(this.colorBlindMode.isSelected());
+            int wordLength = this.game.getWordLength();
             if (this.colorBlindModeEnabled) {
                 Main.setCorrectColor(new Color(245,121,58,255));
                 Main.setWrongPlaceColor(new Color(133,192,249,255));
+                for (int i = 0; i < wordLength; i++) {
+                    for (int j = 0; j < wordLength; j++) {
+                        if (wordboard.getPanels()[i][j].getBackground().equals(new Color(83,141,78,255))) {
+                            wordboard.getPanels()[i][j].setBackground(new Color(245,121,58,255));
+                            wordboard.getLabels()[i][j].setBackground(new Color(245,121,58,255));
+                            Border border = BorderFactory.createLineBorder(new Color(245,121,58,255), 2);
+                            wordboard.getPanels()[i][j].setBorder(border);
+                        } else if (wordboard.getPanels()[i][j].getBackground().equals(new Color(181,159,59,255))) {
+                            wordboard.getPanels()[i][j].setBackground(new Color(133,192,249,255));
+                            wordboard.getLabels()[i][j].setBackground(new Color(133,192,249,255));
+                            Border border = BorderFactory.createLineBorder(new Color(133,192,249,255), 2);
+                            wordboard.getPanels()[i][j].setBorder(border);
+                        }
+                    }
+                }
+                for (JPanel panel : keyboard.getPanels()) {
+                    if (panel.getBackground().equals(new Color(83,141,78,255))) {
+                        panel.setBackground(new Color(245,121,58,255));
+                    } else if (panel.getBackground().equals(new Color(181,159,59,255))) {
+                        panel.setBackground(new Color(133,192,249,255));
+                    }
+                }
             } else {
                 Main.setCorrectColor(new Color(83,141,78,255));
                 Main.setWrongPlaceColor(new Color(181,159,59,255));
+                for (int i = 0; i < wordLength; i++) {
+                    for (int j = 0; j < wordLength; j++) {
+                        if (wordboard.getPanels()[i][j].getBackground().equals(new Color(245,121,58,255))) {
+                            wordboard.getPanels()[i][j].setBackground(new Color(83,141,78,255));
+                            wordboard.getLabels()[i][j].setBackground(new Color(83,141,78,255));
+                            Border border = BorderFactory.createLineBorder(new Color(83,141,78,255), 2);
+                            wordboard.getPanels()[i][j].setBorder(border);
+                        } else if (wordboard.getPanels()[i][j].getBackground().equals(new Color(133,192,249,255))) {
+                            wordboard.getPanels()[i][j].setBackground(new Color(181,159,59,255));
+                            wordboard.getLabels()[i][j].setBackground(new Color(181,159,59,255));
+                            Border border = BorderFactory.createLineBorder(new Color(181,159,59,255), 2);
+                            wordboard.getPanels()[i][j].setBorder(border);
+                        }
+                    }
+                }
+                for (JPanel panel : keyboard.getPanels()) {
+                    if (panel.getBackground().equals(new Color(245,121,58,255))) {
+                        panel.setBackground(new Color(83,141,78,255));
+                    } else if (panel.getBackground().equals(new Color(133,192,249,255))) {
+                        panel.setBackground(new Color(181,159,59,255));
+                    }
+                }
             }
         }
     }
