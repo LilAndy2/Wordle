@@ -134,9 +134,7 @@ class GamePage implements Page, ActionListener {
     private KeyboardPanel keyboard;
     private WordboardPanel wordBoard;
     private Game game;
-    private final JRadioButton darkMode;
     private final JRadioButton colorBlindMode;
-    private boolean darkModeEnabled;
     private boolean colorBlindModeEnabled;
 
     ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
@@ -164,9 +162,6 @@ class GamePage implements Page, ActionListener {
     MyButton getInstructionsButton() {
         return this.instructionsButton;
     }
-    public void setDarkModeEnabled(boolean darkModeEnabled) {
-        this.darkModeEnabled = darkModeEnabled;
-    }
     public void setColorBlindModeEnabled(boolean colorBlindModeEnabled) {
         this.colorBlindModeEnabled = colorBlindModeEnabled;
     }
@@ -178,10 +173,8 @@ class GamePage implements Page, ActionListener {
          * Initializes the frame, line, title text, settings button, instructions button, keyboard and word board.
          * Also adds all the components to the frame.
          */
-        this.darkMode = new JRadioButton("Enable Light Mode");
         this.colorBlindMode = new JRadioButton("Enable Color Blind Mode");
 
-        this.darkModeEnabled = false;
         this.colorBlindModeEnabled = false;
 
         line = new JPanel();
@@ -313,23 +306,16 @@ class GamePage implements Page, ActionListener {
         MyButton backButton = new MyButton("Go back", 0, 70, 125, 50,
                 new Font("Times New Roman", Font.BOLD, 20), BACKGROUND_COLOR, WHITE);
 
-        this.darkMode.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        this.darkMode.setBackground(BACKGROUND_COLOR);
-        this.darkMode.setForeground(WHITE);
-        this.darkMode.setBounds(300, 140, 300, 20);
-        this.darkMode.addActionListener(this);
-
         this.colorBlindMode.setFont(new Font("Times New Roman", Font.PLAIN, 30));
         this.colorBlindMode.setBackground(BACKGROUND_COLOR);
         this.colorBlindMode.setForeground(WHITE);
-        this.colorBlindMode.setBounds(300, 180, 350, 20);
+        this.colorBlindMode.setBounds(300, 150, 350, 20);
         this.colorBlindMode.addActionListener(this);
 
         ArrayList<Component> components = new ArrayList<>();
         components.add(backButton);
         components.add(line);
         components.add(titleText);
-        components.add(this.darkMode);
         components.add(this.colorBlindMode);
 
         for (Component component : components) {
@@ -341,18 +327,10 @@ class GamePage implements Page, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         /*
-         * Method to handle the action events for the dark mode and color-blind mode buttons.
+         * Method to handle the action event for the color-blind mode button.
          * Changes the background color of the frame and the colors of the components based on the selected mode.
          */
-        if (e.getSource() == this.darkMode) {
-            /* Light mode will change the background from black to white and vice-versa. */
-            setDarkModeEnabled(this.darkMode.isSelected());
-//            if (this.darkModeEnabled) {
-//                this.frame.getContentPane().setBackground(new Color(18, 18, 18, 255));
-//            } else {
-//                this.frame.getContentPane().setBackground(Color.WHITE);
-//            }
-        } else if (e.getSource() == this.colorBlindMode) {
+        if (e.getSource() == this.colorBlindMode) {
             /* Color-blind mode will change the colors of the components to be more color-blind friendly. */
             setColorBlindModeEnabled(this.colorBlindMode.isSelected());
             int wordLength = this.game.getWordLength();
