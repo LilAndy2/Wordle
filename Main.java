@@ -57,34 +57,30 @@ public class Main {
         keyboard.setBounds(260, 700, 480, 210);
         keyboard.setVisible(true);
 
-        MyButton settingsButton = gamePage.getSettingsButton();
-        settingsButton.setVisible(true);
-        MyButton instructionsButton = gamePage.getInstructionsButton();
-        instructionsButton.setVisible(true);
-
-        gamePage.getFrame().getContentPane().removeAll();
-        gamePage.getFrame().add(keyboard);
-        gamePage.getFrame().add(gamePage.getLine());
-        gamePage.getFrame().add(gamePage.getTitleText());
-        gamePage.getFrame().add(settingsButton);
-        gamePage.getFrame().add(instructionsButton);
-        gamePage.getFrame().revalidate();
-        gamePage.getFrame().repaint();
-
         int wordLength = 0;
-
         switch (difficulty) {
             case "easy" -> wordLength = 4;
             case "medium" -> wordLength = 5;
             case "hard" -> wordLength = 6;
         }
-
         WordboardPanel wordboard = new WordboardPanel(wordLength);
         wordboard.setBackground(new Color(18,18,18,255));
         wordboard.setBounds(300, 200, 400, 400);
         wordboard.setVisible(true);
 
+        MyButton settingsButton = gamePage.getSettingsButton();
+        gamePage.setButton(gamePage, settingsButton, wordboard, keyboard);
+
+        MyButton instructionsButton = gamePage.getInstructionsButton();
+        gamePage.setButton(gamePage, instructionsButton, wordboard, keyboard);
+
+        gamePage.getFrame().getContentPane().removeAll();
+        gamePage.getFrame().add(keyboard);
         gamePage.getFrame().add(wordboard);
+        gamePage.getFrame().add(gamePage.getLine());
+        gamePage.getFrame().add(gamePage.getTitleText());
+        gamePage.getFrame().add(settingsButton);
+        gamePage.getFrame().add(instructionsButton);
         gamePage.getFrame().revalidate();
         gamePage.getFrame().repaint();
 
@@ -93,46 +89,6 @@ public class Main {
         System.out.println(referenceWord);
         ReferenceWord myWord = new ReferenceWord(referenceWord);
         ArrayList<String> referenceWordLetters = myWord.getLetters();
-
-        instructionsButton.addActionListener(e -> {
-            gamePage.getLine().setVisible(false);
-            gamePage.getTitleText().setVisible(false);
-            gamePage.getSettingsButton().setVisible(false);
-            gamePage.getInstructionsButton().setVisible(false);
-            wordboard.setVisible(false);
-            keyboard.setVisible(false);
-            ArrayList<Component> components = gamePage.displayInstructionsInGame();
-            MyButton backButton = null;
-            for (Component component : components) {
-                if (component instanceof MyButton) {
-                    backButton = (MyButton) component;
-                }
-            }
-            assert backButton != null;
-            backButton.addActionListener(e1 -> {
-                gamePage.getLine().setVisible(true);
-                gamePage.getTitleText().setVisible(true);
-                gamePage.getSettingsButton().setVisible(true);
-                gamePage.getInstructionsButton().setVisible(true);
-                wordboard.setVisible(true);
-                keyboard.setVisible(true);
-                for (Component component : components) {
-                    gamePage.getFrame().remove(component);
-                }
-                gamePage.getFrame().revalidate();
-                gamePage.getFrame().repaint();
-            });
-        });
-
-        settingsButton.addActionListener(e -> {
-            gamePage.getLine().setVisible(false);
-            gamePage.getTitleText().setVisible(false);
-            gamePage.getSettingsButton().setVisible(false);
-            gamePage.getInstructionsButton().setVisible(false);
-            wordboard.setVisible(false);
-            keyboard.setVisible(false);
-            ArrayList<Component> components = gamePage.displaySettings();
-        });
 
         final String[] character = new String[1];
         final int[] rowCount = {0};

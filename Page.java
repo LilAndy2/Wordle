@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public interface Page {
@@ -14,6 +16,13 @@ public interface Page {
             "<p>_________________________________________________________________________________________</p>\n" +
             "<p></p>" +
             "<p><strong><u>Examples</u></strong></p></html>";
+    static MyLabel getInstructionsLabel() {
+        MyLabel instructions = new MyLabel(null, instructionsText, JLabel.CENTER, JLabel.TOP, new Color(255, 255, 255),
+                new Font(null, Font.PLAIN, 20), 0, new Color(18, 18, 18, 255), JLabel.CENTER,
+                JLabel.CENTER, 245, 0, 510, 700);
+        instructions.setOpaque(false);
+        return instructions;
+    }
 }
 
 class LaunchPage implements Page {
@@ -33,7 +42,7 @@ class LaunchPage implements Page {
 class InstructionsPage implements Page {
     private final InstructionsFrame frame;
     public InstructionsPage() {
-        MyLabel instructions = getMyLabel();
+        MyLabel instructions = Page.getInstructionsLabel();
 
         String title = "<html><b><u>HOW TO PLAY</u></b></html>";
         MyLabel title1 = new MyLabel(null, title, JLabel.CENTER, JLabel.TOP, new Color(255, 255, 255), new Font(null,
@@ -86,27 +95,23 @@ class InstructionsPage implements Page {
         this.frame.add(wrongPlace);
         this.frame.add(incorrect);
     }
-
-    private static MyLabel getMyLabel() {
-        MyLabel instructions = new MyLabel(null, instructionsText, JLabel.CENTER, JLabel.TOP, new Color(255, 255, 255),
-                new Font(null, Font.PLAIN, 20), 0, new Color(18, 18, 18, 255), JLabel.CENTER,
-                JLabel.CENTER, 245, 0, 510, 700);
-        instructions.setOpaque(false);
-        return instructions;
-    }
-
     InstructionsFrame getFrame() {
         return this.frame;
     }
 }
 
-class GamePage implements Page {
+class GamePage implements Page, ActionListener {
     private final GameFrame frame;
     private final JPanel line;
     private final JLabel titleText;
     private final MyButton settingsButton;
     private final MyButton instructionsButton;
+    private final JRadioButton darkMode;
+    private final JRadioButton colorBlindMode;
     public GamePage() {
+        this.darkMode = new JRadioButton("Enable Dark Mode");
+        this.colorBlindMode = new JRadioButton("Enable Color Blind Mode");
+
         line = new JPanel();
         line.setVisible(true);
         line.setBounds(0,125,1000,2);
@@ -123,6 +128,7 @@ class GamePage implements Page {
         ImageIcon settingsIcon = new ImageIcon("utils/images/settings.png");
         settingsButton = new MyButton("", 900, 80, 30, 30, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(18,18,18,255), new Color(255,255,255));
+        settingsButton.setName("Settings");
         settingsButton.setIcon(settingsIcon);
         settingsButton.setOpaque(false);
         settingsButton.setVisible(false);
@@ -130,6 +136,7 @@ class GamePage implements Page {
         ImageIcon instructionsIcon = new ImageIcon("utils/images/instructions.png");
         instructionsButton = new MyButton("", 940, 80, 30, 30, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(18,18,18,255), new Color(255,255,255));
+        instructionsButton.setName("Instructions");
         instructionsButton.setIcon(instructionsIcon);
         instructionsButton.setOpaque(false);
         instructionsButton.setVisible(false);
@@ -157,7 +164,7 @@ class GamePage implements Page {
         return this.instructionsButton;
     }
     public ArrayList<Component> displayInstructionsInGame() {
-        MyLabel instructions = getMyLabel();
+        MyLabel instructions = Page.getInstructionsLabel();
 
         String title = "<html><b><u>HOW TO PLAY</u></b></html>";
         MyLabel title1 = new MyLabel(null, title, JLabel.CENTER, JLabel.TOP, new Color(255, 255, 255), new Font(null,
@@ -222,13 +229,6 @@ class GamePage implements Page {
 
         return components;
     }
-    private static MyLabel getMyLabel() {
-        MyLabel instructions = new MyLabel(null, instructionsText, JLabel.CENTER, JLabel.TOP, new Color(255, 255, 255),
-                new Font(null, Font.PLAIN, 20), 0, new Color(18, 18, 18, 255), JLabel.CENTER,
-                JLabel.CENTER, 245, 0, 510, 700);
-        instructions.setOpaque(false);
-        return instructions;
-    }
     public ArrayList<Component> displaySettings() {
         JPanel line = new JPanel();
         line.setVisible(true);
@@ -246,15 +246,74 @@ class GamePage implements Page {
         MyButton backButton = new MyButton("Go back", 0, 70, 125, 50, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(18,18,18,255), new Color(255,255,255));
 
+        this.darkMode.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        this.darkMode.setBackground(new Color(18,18,18,255));
+        this.darkMode.setForeground(Color.WHITE);
+        this.darkMode.setBounds(300, 140, 300, 20);
+
+        this.colorBlindMode.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        this.colorBlindMode.setBackground(new Color(18,18,18,255));
+        this.colorBlindMode.setForeground(Color.WHITE);
+        this.colorBlindMode.setBounds(300, 180, 350, 20);
+
         ArrayList<Component> components = new ArrayList<>();
         components.add(backButton);
         components.add(line);
         components.add(titleText);
+        components.add(this.darkMode);
+        components.add(this.colorBlindMode);
 
         for (Component component : components) {
             this.frame.add(component);
         }
 
         return components;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.darkMode) {
+        }
+    }
+
+    public void setButton(GamePage gamePage, MyButton button, WordboardPanel wordboard, KeyboardPanel keyboard) {
+        button.setVisible(true);
+        button.addActionListener(e -> {
+            gamePage.getLine().setVisible(false);
+            gamePage.getTitleText().setVisible(false);
+            gamePage.getSettingsButton().setVisible(false);
+            gamePage.getInstructionsButton().setVisible(false);
+            wordboard.setVisible(false);
+            keyboard.setVisible(false);
+            ArrayList<Component> components;
+            if (button.getName().equals("Settings")) {
+                components = gamePage.displaySettings();
+            } else if (button.getName().equals("Instructions")) {
+                components = gamePage.displayInstructionsInGame();
+            } else {
+                components = null;
+            }
+            MyButton backButton = null;
+            assert components != null;
+            for (Component component : components) {
+                if (component instanceof MyButton) {
+                    backButton = (MyButton) component;
+                }
+            }
+            assert backButton != null;
+            backButton.addActionListener(e1 -> {
+                gamePage.getLine().setVisible(true);
+                gamePage.getTitleText().setVisible(true);
+                gamePage.getSettingsButton().setVisible(true);
+                gamePage.getInstructionsButton().setVisible(true);
+                wordboard.setVisible(true);
+                keyboard.setVisible(true);
+                for (Component component : components) {
+                    gamePage.getFrame().remove(component);
+                }
+                gamePage.getFrame().revalidate();
+                gamePage.getFrame().repaint();
+            });
+        });
     }
 }
