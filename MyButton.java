@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyButton extends JButton {
+    /*
+     * Constructor for MyButton with personalized settings of a JButton.
+     */
     public MyButton(String text, int x, int y, int width, int height, Font font, Color backgroundColor, Color foregroundColor) {
         this.setText(text);
         this.setBounds(x, y, width, height);

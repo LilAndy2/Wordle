@@ -2,16 +2,27 @@ import javax.swing.*;
 import java.awt.*;
 
 public interface Frame {
+    /*
+     * Interface for the frames.
+     * Contains the constants for the colors and the background color.
+     */
+    Color WHITE = new Color(255, 255, 255);
+    Color BLACK = new Color(0, 0, 0);
+    Color BACKGROUND_COLOR = new Color(18,18,18,255);
 }
 
 class LaunchFrame extends JFrame implements Frame {
+    /*
+     * Class for the launching frame.
+     * Contains and initialises the "Start" and "Instructions" buttons.
+     */
     private final MyButton startButton;
     private final MyButton instructionsButton;
     public LaunchFrame() {
-        this.startButton = new MyButton("Start", 300, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
-        this.instructionsButton = new MyButton("Instructions", 575, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
+        this.startButton = new MyButton("Start", 300, 800, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), WHITE, BLACK);
+        this.instructionsButton = new MyButton("Instructions", 575, 800, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), WHITE, BLACK);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -22,7 +33,7 @@ class LaunchFrame extends JFrame implements Frame {
 
         ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
-        this.getContentPane().setBackground(new Color(18,18,18,255));
+        this.getContentPane().setBackground(BACKGROUND_COLOR);
 
         this.add(this.startButton);
         this.add(this.instructionsButton);
@@ -36,10 +47,14 @@ class LaunchFrame extends JFrame implements Frame {
 }
 
 class InstructionsFrame extends JFrame implements Frame {
+    /*
+     * Class for the instructions frame.
+     * Contains and initialises the "Go back" button.
+     */
     private final MyButton backButton;
     public InstructionsFrame() {
-        this.backButton = new MyButton("Go back", 0, 0, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(18,18,18,255), new Color(255,255,255));
+        this.backButton = new MyButton("Go back", 0, 0, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), BACKGROUND_COLOR, WHITE);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -50,7 +65,7 @@ class InstructionsFrame extends JFrame implements Frame {
 
         ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
-        this.getContentPane().setBackground(new Color(18,18,18,255));
+        this.getContentPane().setBackground(BACKGROUND_COLOR);
 
         this.add(this.backButton);
     }
@@ -60,17 +75,21 @@ class InstructionsFrame extends JFrame implements Frame {
 }
 
 class GameFrame extends JFrame implements Frame {
+    /*
+     * Class for the game frame.
+     * Contains and initialises the "Easy", "Medium" and "Hard" buttons.
+     */
     private final MyButton easyButton;
     private final MyButton mediumButton;
     private final MyButton hardButton;
-    private final JPanel textPanel;
     public GameFrame() {
-        this.easyButton = new MyButton("Easy", 100, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
-        this.mediumButton = new MyButton("Medium", 437, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
-        this.hardButton = new MyButton("Hard", 775, 800, 125, 50, new Font("Times New Roman",
-                Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
+        this.easyButton = new MyButton("Easy", 100, 800, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), WHITE, BLACK);
+        this.mediumButton = new MyButton("Medium", 437, 800, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), WHITE, BLACK);
+        this.hardButton = new MyButton("Hard", 775, 800, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), WHITE, BLACK);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setTitle("Wordle");
@@ -80,21 +99,21 @@ class GameFrame extends JFrame implements Frame {
 
         ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
         this.setIconImage(icon.getImage());
-        this.getContentPane().setBackground(new Color(18,18,18,255));
+        this.getContentPane().setBackground(BACKGROUND_COLOR);
 
-        MyLabel title = new MyLabel(null, "Choose a difficulty", JLabel.CENTER, JLabel.BOTTOM, new Color(255, 255, 255),
-                new Font("Times New Roman", Font.PLAIN, 50), 10, new Color(18, 18, 18, 255), JLabel.CENTER,
+        MyLabel title = new MyLabel(null, "Choose a difficulty", JLabel.CENTER, JLabel.BOTTOM, WHITE,
+                new Font("Times New Roman", Font.PLAIN, 50), 10,BACKGROUND_COLOR, JLabel.CENTER,
                 JLabel.CENTER, 250, 100, 500, 100);
 
-        this.textPanel = new JPanel();
-        this.textPanel.setBackground(new Color(18,18,18,255));
-        this.textPanel.setBounds(250, 500, 500, 100);
-        this.textPanel.add(title);
+        JPanel textPanel = new JPanel();
+        textPanel.setBackground(BACKGROUND_COLOR);
+        textPanel.setBounds(250, 500, 500, 100);
+        textPanel.add(title);
 
         this.add(this.easyButton);
         this.add(this.mediumButton);
         this.add(this.hardButton);
-        this.add(this.textPanel);
+        this.add(textPanel);
     }
     public MyButton getEasyButton() {
         return this.easyButton;

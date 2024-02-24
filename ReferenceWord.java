@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 
 public class ReferenceWord {
+    /*
+     * This class is used to store the reference word and its letters in an array.
+     * The reference word is the word that the user is trying to guess.
+     * The letters array is used to store the letters of the reference word.
+     */
     private final String word;
     private final ArrayList<String> letters;
     public ReferenceWord(String referenceWord) {

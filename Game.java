@@ -3,6 +3,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
+    /*
+     * This class is responsible for generating the reference word for the game.
+     * It also contains the difficulty level of the game and the words array.
+     * The words array is generated from the word database file based on the difficulty level.
+     * The reference word is chosen randomly from the words array.
+     */
     private final String difficulty;
     private final ArrayList<String> words;
     public Game (String difficulty) throws IOException {

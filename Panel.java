@@ -2,12 +2,22 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public interface Panel {
+    /*
+     * Interface for the panels.
+     * Contains the constants for the colors and the background color.
+     */
+    Color WHITE = new Color(255, 255, 255);
+    Color BACKGROUND_COLOR = new Color(18,18,18,255);
 }
 
 class KeyboardPanel extends JPanel implements Panel {
+    /*
+     * Class for the keyboard panel.
+     * Contains and initialises the buttons and the panels.
+     * The buttons are the letters from A to Z, the "Enter" button and the "Delete" button.
+     */
     private final ArrayList<JButton> buttons;
     private final ArrayList<JPanel> panels;
     public KeyboardPanel() {
@@ -15,8 +25,8 @@ class KeyboardPanel extends JPanel implements Panel {
         this.panels = new ArrayList<>();
 
         for (char c = 'A'; c <= 'Z'; c++) {
-            MyButton button = new MyButton(String.valueOf(c), 0, 0, 20, 30, new Font("Times New Roman",
-                    Font.BOLD, 23),Color.GRAY, new Color(255,255,255));
+            MyButton button = new MyButton(String.valueOf(c), 0, 0, 20, 30,
+                    new Font("Times New Roman", Font.BOLD, 23), Color.GRAY, WHITE);
             button.setOpaque(false);
 
             JPanel panel = new JPanel(new BorderLayout());
@@ -29,8 +39,8 @@ class KeyboardPanel extends JPanel implements Panel {
             this.panels.add(panel);
         }
 
-        MyButton enterButton = new MyButton("Enter", 0, 0, 0, 0, new Font("Times New Roman",
-                Font.BOLD, 20), Color.GRAY, new Color(255,255,255));
+        MyButton enterButton = new MyButton("Enter", 0, 0, 0, 0,
+                new Font("Times New Roman", Font.BOLD, 20), Color.GRAY, WHITE);
         enterButton.setOpaque(false);
 
         JPanel enterPanel = new JPanel(new BorderLayout());
@@ -41,8 +51,8 @@ class KeyboardPanel extends JPanel implements Panel {
         this.buttons.add(enterButton);
         this.panels.add(enterPanel);
 
-        MyButton deleteButton = new MyButton("Delete", 0, 0, 0, 0, new Font("Times New Roman",
-                Font.BOLD, 20), Color.GRAY, new Color(255,255,255));
+        MyButton deleteButton = new MyButton("Delete", 0, 0, 0, 0,
+                new Font("Times New Roman", Font.BOLD, 20), Color.GRAY, WHITE);
         deleteButton.setOpaque(false);
 
         JPanel deletePanel = new JPanel(new BorderLayout());
@@ -63,6 +73,10 @@ class KeyboardPanel extends JPanel implements Panel {
         return this.panels;
     }
     public JPanel findPanel(ArrayList<JPanel> panels, String letter) {
+        /*
+         * Method to find the panel with the given letter.
+         * Return null if the letter is not found on any panel.
+         */
         for (JPanel panel : panels) {
             Component[] components = panel.getComponents();
             for (Component component : components) {
@@ -76,6 +90,10 @@ class KeyboardPanel extends JPanel implements Panel {
         return null;
     }
     private void displayPanels() {
+        /*
+         * Method to display the panels on the keyboard panel.
+         * The panels are displayed similar to a real keyboard.
+         */
         ArrayList<JPanel> topRowPanels = new ArrayList<>();
         ArrayList<JPanel> middleRowPanels = new ArrayList<>();
         ArrayList<JPanel> bottomRowPanels = new ArrayList<>();
@@ -108,7 +126,7 @@ class KeyboardPanel extends JPanel implements Panel {
 
         JPanel topRow = new JPanel(new GridLayout(1, 10, 7, 7));
         topRow.setVisible(true);
-        topRow.setBackground(new Color(18, 18, 18, 255));
+        topRow.setBackground(BACKGROUND_COLOR);
         topRow.setPreferredSize(new Dimension(463, 60));
         for (JPanel panel : topRowPanels) {
             topRow.add(panel);
@@ -116,7 +134,7 @@ class KeyboardPanel extends JPanel implements Panel {
 
         JPanel middleRow = new JPanel(new GridLayout(1, 9, 7, 7));
         middleRow.setVisible(true);
-        middleRow.setBackground(new Color(18, 18, 18, 255));
+        middleRow.setBackground(BACKGROUND_COLOR);
         middleRow.setPreferredSize(new Dimension(416, 60));
         for (JPanel panel : middleRowPanels) {
             middleRow.add(panel);
@@ -124,7 +142,7 @@ class KeyboardPanel extends JPanel implements Panel {
 
         JPanel bottomRow = new JPanel(new GridLayout(1, 9, 7, 7));
         bottomRow.setVisible(true);
-        bottomRow.setBackground(new Color(18, 18, 18, 255));
+        bottomRow.setBackground(BACKGROUND_COLOR);
         bottomRow.setPreferredSize(new Dimension(322, 60));
         for (JPanel panel : bottomRowPanels) {
             bottomRow.add(panel);
@@ -139,6 +157,11 @@ class KeyboardPanel extends JPanel implements Panel {
 }
 
 class WordboardPanel extends JPanel implements Panel {
+    /*
+     * Class for the word board panel.
+     * Contains and initialises the labels and the panels.
+     * The labels are the letters of the word to be guessed.
+     */
     private final JLabel[][] labels;
     private final JPanel[][] panels;
     public WordboardPanel(int wordLength) {
@@ -156,11 +179,11 @@ class WordboardPanel extends JPanel implements Panel {
         for (int i = 0; i < wordLength; i++) {
             for (int j = 0; j < wordLength; j++) {
                 Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3);
-                MyLabel label = new MyLabel(null, "", JLabel.CENTER, JLabel.CENTER, new Color(255, 255, 255),
-                        font, 0, new Color(18, 18, 18, 255), JLabel.CENTER, JLabel.CENTER, 0, 0, 0, 0);
+                MyLabel label = new MyLabel(null, "", JLabel.CENTER, JLabel.CENTER, WHITE, font,
+                        0,BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 0, 0, 0, 0);
 
                 JPanel panel = new JPanel();
-                panel.setBackground(new Color(18,18,18,255));
+                panel.setBackground(BACKGROUND_COLOR);
                 panel.add(label, BorderLayout.CENTER);
                 panel.setBorder(border);
                 panel.setVisible(true);
