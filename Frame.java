@@ -63,6 +63,7 @@ class GameFrame extends JFrame implements Frame {
     private final MyButton easyButton;
     private final MyButton mediumButton;
     private final MyButton hardButton;
+    private final JPanel textPanel;
     public GameFrame() {
         this.easyButton = new MyButton("Easy", 100, 800, 125, 50, new Font("Times New Roman",
                 Font.BOLD, 20), new Color(255,255,255), new Color(0,0,0));
@@ -81,9 +82,19 @@ class GameFrame extends JFrame implements Frame {
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(new Color(18,18,18,255));
 
+        MyLabel title = new MyLabel(null, "Choose a difficulty", JLabel.CENTER, JLabel.BOTTOM, new Color(255, 255, 255),
+                new Font("Times New Roman", Font.PLAIN, 50), 10, new Color(18, 18, 18, 255), JLabel.CENTER,
+                JLabel.CENTER, 250, 100, 500, 100);
+
+        this.textPanel = new JPanel();
+        this.textPanel.setBackground(new Color(18,18,18,255));
+        this.textPanel.setBounds(250, 500, 500, 100);
+        this.textPanel.add(title);
+
         this.add(this.easyButton);
         this.add(this.mediumButton);
         this.add(this.hardButton);
+        this.add(this.textPanel);
     }
     public MyButton getEasyButton() {
         return this.easyButton;

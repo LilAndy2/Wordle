@@ -1,9 +1,13 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
+    private static final Color CORRECT_COLOR = new Color(83,141,78,255);
+    private static final Color INCORRECT_COLOR = new Color(58,58,60,255);
+    private static final Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
     public static void main(String[] args) {
         LaunchPage launchPage = new LaunchPage();
 
@@ -53,10 +57,17 @@ public class Main {
         keyboard.setBounds(260, 700, 480, 210);
         keyboard.setVisible(true);
 
+        MyButton settingsButton = gamePage.getSettingsButton();
+        settingsButton.setVisible(true);
+        MyButton instructionsButton = gamePage.getInstructionsButton();
+        instructionsButton.setVisible(true);
+
         gamePage.getFrame().getContentPane().removeAll();
         gamePage.getFrame().add(keyboard);
         gamePage.getFrame().add(gamePage.getLine());
         gamePage.getFrame().add(gamePage.getTitleText());
+        gamePage.getFrame().add(settingsButton);
+        gamePage.getFrame().add(instructionsButton);
         gamePage.getFrame().revalidate();
         gamePage.getFrame().repaint();
 
@@ -83,6 +94,46 @@ public class Main {
         ReferenceWord myWord = new ReferenceWord(referenceWord);
         ArrayList<String> referenceWordLetters = myWord.getLetters();
 
+        instructionsButton.addActionListener(e -> {
+            gamePage.getLine().setVisible(false);
+            gamePage.getTitleText().setVisible(false);
+            gamePage.getSettingsButton().setVisible(false);
+            gamePage.getInstructionsButton().setVisible(false);
+            wordboard.setVisible(false);
+            keyboard.setVisible(false);
+            ArrayList<Component> components = gamePage.displayInstructionsInGame();
+            MyButton backButton = null;
+            for (Component component : components) {
+                if (component instanceof MyButton) {
+                    backButton = (MyButton) component;
+                }
+            }
+            assert backButton != null;
+            backButton.addActionListener(e1 -> {
+                gamePage.getLine().setVisible(true);
+                gamePage.getTitleText().setVisible(true);
+                gamePage.getSettingsButton().setVisible(true);
+                gamePage.getInstructionsButton().setVisible(true);
+                wordboard.setVisible(true);
+                keyboard.setVisible(true);
+                for (Component component : components) {
+                    gamePage.getFrame().remove(component);
+                }
+                gamePage.getFrame().revalidate();
+                gamePage.getFrame().repaint();
+            });
+        });
+
+        settingsButton.addActionListener(e -> {
+            gamePage.getLine().setVisible(false);
+            gamePage.getTitleText().setVisible(false);
+            gamePage.getSettingsButton().setVisible(false);
+            gamePage.getInstructionsButton().setVisible(false);
+            wordboard.setVisible(false);
+            keyboard.setVisible(false);
+            ArrayList<Component> components = gamePage.displaySettings();
+        });
+
         final String[] character = new String[1];
         final int[] rowCount = {0};
         final int[] columnCount = {0};
@@ -107,21 +158,27 @@ public class Main {
                         for (int i = 0; i < finalWordLength; i++) {
                             ArrayList<JPanel> keyboardPanels = keyboard.getPanels();
                             if (wordboard.getLabels()[rowCount[0]][i].getText().equals(referenceWordLetters.get(i))) {
-                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
-                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(83,141,78,255));
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(CORRECT_COLOR);
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(CORRECT_COLOR);
+                                Border border = BorderFactory.createLineBorder(CORRECT_COLOR, 2);
+                                wordboard.getPanels()[rowCount[0]][i].setBorder(border);
                                 correctLetterCount++;
                                 JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
-                                panel.setBackground(new Color(83,141,78,255));
+                                panel.setBackground(CORRECT_COLOR);
                             } else if (referenceWordLetters.contains(wordboard.getLabels()[rowCount[0]][i].getText())) {
-                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
-                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(181,159,59,255));
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(WRONG_PLACE_COLOR);
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(WRONG_PLACE_COLOR);
+                                Border border = BorderFactory.createLineBorder(WRONG_PLACE_COLOR, 2);
+                                wordboard.getPanels()[rowCount[0]][i].setBorder(border);
                                 JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
-                                panel.setBackground(new Color(181,159,59,255));
+                                panel.setBackground(WRONG_PLACE_COLOR);
                             } else {
-                                wordboard.getLabels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
-                                wordboard.getPanels()[rowCount[0]][i].setBackground(new Color(58,58,60,255));
+                                wordboard.getLabels()[rowCount[0]][i].setBackground(INCORRECT_COLOR);
+                                wordboard.getPanels()[rowCount[0]][i].setBackground(INCORRECT_COLOR);
+                                Border border = BorderFactory.createLineBorder(INCORRECT_COLOR, 2);
+                                wordboard.getPanels()[rowCount[0]][i].setBorder(border);
                                 JPanel panel = keyboard.findPanel(keyboardPanels, wordboard.getLabels()[rowCount[0]][i].getText());
-                                panel.setBackground(new Color(58,58,60,255));
+                                panel.setBackground(INCORRECT_COLOR);
                             }
                         }
 
