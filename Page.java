@@ -108,9 +108,14 @@ class GamePage implements Page, ActionListener {
     private final MyButton instructionsButton;
     private final JRadioButton darkMode;
     private final JRadioButton colorBlindMode;
+    private boolean darkModeEnabled;
+    private boolean colorBlindModeEnabled;
     public GamePage() {
         this.darkMode = new JRadioButton("Enable Dark Mode");
         this.colorBlindMode = new JRadioButton("Enable Color Blind Mode");
+
+        this.darkModeEnabled = false;
+        this.colorBlindModeEnabled = false;
 
         line = new JPanel();
         line.setVisible(true);
@@ -269,13 +274,32 @@ class GamePage implements Page, ActionListener {
 
         return components;
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.darkMode) {
+            setDarkModeEnabled(this.darkMode.isSelected());
+//            if (this.darkModeEnabled) {
+//                this.frame.getContentPane().setBackground(new Color(18, 18, 18, 255));
+//            } else {
+//                this.frame.getContentPane().setBackground(Color.WHITE);
+//            }
+        } else if (e.getSource() == this.colorBlindMode) {
+            setColorBlindModeEnabled(this.colorBlindMode.isSelected());
+            if (this.colorBlindModeEnabled) {
+                Main.setCorrectColor(new Color(245,121,58,255));
+                Main.setWrongPlaceColor(new Color(133,192,249,255));
+            } else {
+                Main.setCorrectColor(new Color(83,141,78,255));
+                Main.setWrongPlaceColor(new Color(181,159,59,255));
+            }
         }
     }
-
+    public void setDarkModeEnabled(boolean darkModeEnabled) {
+        this.darkModeEnabled = darkModeEnabled;
+    }
+    public void setColorBlindModeEnabled(boolean colorBlindModeEnabled) {
+        this.colorBlindModeEnabled = colorBlindModeEnabled;
+    }
     public void setButton(GamePage gamePage, MyButton button, WordboardPanel wordboard, KeyboardPanel keyboard) {
         button.setVisible(true);
         button.addActionListener(e -> {

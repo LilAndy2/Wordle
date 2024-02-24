@@ -5,9 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
-    private static final Color CORRECT_COLOR = new Color(83,141,78,255);
-    private static final Color INCORRECT_COLOR = new Color(58,58,60,255);
-    private static final Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
+    private static Color CORRECT_COLOR = new Color(83,141,78,255);
+    private final static Color INCORRECT_COLOR = new Color(58,58,60,255);
+    private static Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
+
+    public static void setCorrectColor(Color correctColor) {
+        CORRECT_COLOR = correctColor;
+    }
+    public static void setWrongPlaceColor(Color wrongPlaceColor) {
+        WRONG_PLACE_COLOR = wrongPlaceColor;
+    }
+
     public static void main(String[] args) {
         LaunchPage launchPage = new LaunchPage();
 
