@@ -45,7 +45,7 @@ class LaunchPage implements Page {
     public LaunchPage() {
         MyLabel label = new MyLabel(new ImageIcon("utils/images/wordle.jpg"), "Welcome to Wordle!",
                 JLabel.CENTER, JLabel.TOP, WHITE, new Font("MV Boli", Font.PLAIN, 50), -75,
-                BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 250, 250, 500, 500);
+                BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 250, 150, 500, 500);
         this.frame = new LaunchFrame();
         this.frame.add(label);
     }
@@ -213,6 +213,7 @@ class GamePage implements Page, ActionListener {
         this.frame.add(instructionsButton);
 
     }
+
     public ArrayList<Component> displayInstructionsInGame() {
         /*
          * Method to display the instructions in the game page.
@@ -284,6 +285,7 @@ class GamePage implements Page, ActionListener {
 
         return components;
     }
+
     public ArrayList<Component> displaySettings() {
         /*
          * Method to display the settings in the game page.
@@ -324,6 +326,7 @@ class GamePage implements Page, ActionListener {
 
         return components;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         /*
@@ -395,6 +398,7 @@ class GamePage implements Page, ActionListener {
             }
         }
     }
+
     public void setButton(GamePage gamePage, MyButton button, WordboardPanel wordBoard, KeyboardPanel keyboard) {
         /*
          * Method to set the action listener for the settings and instructions buttons.

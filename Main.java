@@ -42,6 +42,9 @@ public class Main {
                 launchPage.getFrame().setVisible(true);
             });
         });
+        launchPage.getFrame().getLogInButton().addActionListener(e -> {
+
+        });
     }
 
     /*
