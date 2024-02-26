@@ -41,14 +41,19 @@ class LaunchPage implements Page {
     /*
      * Class for the launch page of the game.
      * Contains the frame for the launch page.
+     * Also contains the interface for the user login.
      */
     private final LaunchFrame frame;
     private final MyLabel label;
     private JPanel logInPanel;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
     private JButton loginButton;
     private JButton signUpButton;
+    private JPanel signUpPanel;
+    private JButton signUpFirstTimeButton;
+    private JPanel notCorrectPanel;
     public LaunchPage() {
         this.label = new MyLabel(new ImageIcon("utils/images/wordle.jpg"), "Welcome to Wordle!",
                 JLabel.CENTER, JLabel.TOP, WHITE, new Font("MV Boli", Font.PLAIN, 50), -75,
@@ -56,6 +61,8 @@ class LaunchPage implements Page {
         this.frame = new LaunchFrame();
         this.frame.add(this.label);
     }
+
+    ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
     LaunchFrame getFrame() {
         return this.frame;
     }
@@ -65,7 +72,29 @@ class LaunchPage implements Page {
     JPanel getLogInPanel() {
         return this.logInPanel;
     }
+    JTextField getUsernameField() {
+        return this.usernameField;
+    }
+    JPasswordField getPasswordField() {
+        return this.passwordField;
+    }
+    JButton getLoginButton() {
+        return this.loginButton;
+    }
+    JButton getSignUpButton() {
+        return this.signUpButton;
+    }
+    JButton getSignUpFirstTimeButton() {return this.signUpFirstTimeButton;}
+    JPanel getSignUpPanel() {return this.signUpPanel;}
+    JPasswordField getConfirmPasswordField() {return this.confirmPasswordField;}
+    JPanel getNotCorrectPanel() {return this.notCorrectPanel;}
+    ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
+
     void displayLogIn() {
+        /*
+         * Method to display the log in panel in the launch page.
+         * Contains the title, username and password fields, log in button and sign up button.
+         */
         JLabel titleLabel = new JLabel();
         titleLabel.setText("Login");
         titleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
@@ -149,6 +178,102 @@ class LaunchPage implements Page {
         this.logInPanel.add(this.signUpButton);
 
         this.frame.add(this.logInPanel);
+    }
+    void displaySignUp() {
+        JLabel titleLabel = new JLabel();
+        titleLabel.setText("Sign up");
+        titleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+        titleLabel.setForeground(BLACK);
+        titleLabel.setBackground(WHITE);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.add(titleLabel);
+        titlePanel.setBounds(175, 5, 150, 65);
+        titlePanel.setBackground(WHITE);
+
+        JLabel line = new JLabel();
+        line.setText("---------------------------------------------");
+        line.setBackground(BLACK);
+
+        JPanel linePanel = new JPanel();
+        linePanel.add(line);
+        linePanel.setBounds(0,70,500,2);
+        linePanel.setBackground(BLACK);
+
+        JLabel username = new JLabel();
+        username.setText("Username:");
+        username.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.add(username);
+        usernamePanel.setBackground(WHITE);
+        usernamePanel.setBounds(20,100,150,50);
+
+        this.usernameField = new JTextField();
+        this.usernameField.setBounds(200,100,200,40);
+        this.usernameField.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel password = new JLabel();
+        password.setText("Password:");
+        password.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.add(password);
+        passwordPanel.setBackground(WHITE);
+        passwordPanel.setBounds(20,180,150,50);
+
+        this.passwordField = new JPasswordField();
+        this.passwordField.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.passwordField.setBounds(200,180,200,40);
+
+        JLabel confirmPassword = new JLabel();
+        confirmPassword.setText("Confirm Password:");
+        confirmPassword.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        JPanel confirmPasswordPanel = new JPanel();
+        confirmPasswordPanel.add(confirmPassword);
+        confirmPasswordPanel.setBackground(WHITE);
+        confirmPasswordPanel.setBounds(20,260,250,80);
+
+        this.confirmPasswordField = new JPasswordField();
+        this.confirmPasswordField.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.confirmPasswordField.setBounds(30,300,200,40);
+
+        this.signUpFirstTimeButton = new JButton();
+        this.signUpFirstTimeButton.setText("Sign Up");
+        this.signUpFirstTimeButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        this.signUpFirstTimeButton.setBackground(WHITE);
+        this.signUpFirstTimeButton.setBounds(50, 420, 400, 40);
+
+        JLabel notCorrect = new JLabel();
+        notCorrect.setText("Password confirmation failed!");
+        notCorrect.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        notCorrect.setBackground(WHITE);
+        notCorrect.setForeground(Color.RED);
+
+        this.notCorrectPanel = new JPanel();
+        this.notCorrectPanel.add(notCorrect);
+        this.notCorrectPanel.setBounds(125,370,250,40);
+        this.notCorrectPanel.setBackground(WHITE);
+        this.notCorrectPanel.setVisible(false);
+
+        this.signUpPanel = new JPanel();
+        this.signUpPanel.setBackground(WHITE);
+        this.signUpPanel.setBounds(250,250,500,500);
+        this.signUpPanel.setVisible(true);
+        this.signUpPanel.setLayout(null);
+        this.signUpPanel.add(titlePanel);
+        this.signUpPanel.add(linePanel);
+        this.signUpPanel.add(usernamePanel);
+        this.signUpPanel.add(this.usernameField);
+        this.signUpPanel.add(passwordPanel);
+        this.signUpPanel.add(this.passwordField);
+        this.signUpPanel.add(confirmPasswordPanel);
+        this.signUpPanel.add(confirmPasswordField);
+        this.signUpPanel.add(this.signUpFirstTimeButton);
+        this.signUpPanel.add(notCorrectPanel);
+
+        this.frame.add(this.signUpPanel);
     }
 }
 

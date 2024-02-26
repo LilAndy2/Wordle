@@ -14,6 +14,7 @@ public class Main {
     private static Color CORRECT_COLOR = new Color(83,141,78,255);
     private final static Color INCORRECT_COLOR = new Color(58,58,60,255);
     private static Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
+    private final static Color WHITE = new Color(255,255,255);
     public static void setCorrectColor(Color correctColor) {
         CORRECT_COLOR = correctColor;
     }
@@ -49,6 +50,22 @@ public class Main {
             launchPage.getLabel().setVisible(false);
 
             launchPage.displayLogIn();
+            launchPage.getLoginButton().addActionListener(e1 -> {
+                String username = launchPage.getUsernameField().getText();
+                String password = new String(launchPage.getPasswordField().getPassword());
+            });
+            launchPage.getSignUpButton().addActionListener(e1 -> {
+                launchPage.getLogInPanel().setVisible(false);
+                launchPage.displaySignUp();
+                launchPage.getSignUpFirstTimeButton().addActionListener(e2 -> {
+                    String username = launchPage.getUsernameField().getText();
+                    String password = new String(launchPage.getPasswordField().getPassword());
+                    String confirmedPassword = new String(launchPage.getConfirmPasswordField().getPassword());
+                    if (!(password.equals(confirmedPassword))) {
+                        launchPage.getNotCorrectPanel().setVisible(true);
+                    }
+                });
+            });
         });
     }
 
