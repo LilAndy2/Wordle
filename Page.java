@@ -12,6 +12,7 @@ public interface Page {
      */
     Color WHITE = new Color(255, 255, 255);
     Color BACKGROUND_COLOR = new Color(18,18,18,255);
+    Color BLACK = new Color(0, 0, 0);
     Color CORRECT_COLOR = new Color(83,141,78,255);
     Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
     Color CORRECT_COLOR_COLORBLIND = new Color(245,121,58,255);
@@ -42,15 +43,112 @@ class LaunchPage implements Page {
      * Contains the frame for the launch page.
      */
     private final LaunchFrame frame;
+    private final MyLabel label;
+    private JPanel logInPanel;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JButton signUpButton;
     public LaunchPage() {
-        MyLabel label = new MyLabel(new ImageIcon("utils/images/wordle.jpg"), "Welcome to Wordle!",
+        this.label = new MyLabel(new ImageIcon("utils/images/wordle.jpg"), "Welcome to Wordle!",
                 JLabel.CENTER, JLabel.TOP, WHITE, new Font("MV Boli", Font.PLAIN, 50), -75,
                 BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 250, 150, 500, 500);
         this.frame = new LaunchFrame();
-        this.frame.add(label);
+        this.frame.add(this.label);
     }
     LaunchFrame getFrame() {
         return this.frame;
+    }
+    MyLabel getLabel() {
+        return this.label;
+    }
+    JPanel getLogInPanel() {
+        return this.logInPanel;
+    }
+    void displayLogIn() {
+        JLabel titleLabel = new JLabel();
+        titleLabel.setText("Login");
+        titleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+        titleLabel.setForeground(BLACK);
+        titleLabel.setBackground(WHITE);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.add(titleLabel);
+        titlePanel.setBounds(200, 5, 120, 65);
+        titlePanel.setBackground(WHITE);
+
+        JLabel line = new JLabel();
+        line.setText("---------------------------------------------");
+        line.setBackground(BLACK);
+
+        JPanel linePanel = new JPanel();
+        linePanel.add(line);
+        linePanel.setBounds(0,70,500,2);
+        linePanel.setBackground(BLACK);
+
+        JLabel username = new JLabel();
+        username.setText("Username:");
+        username.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.add(username);
+        usernamePanel.setBackground(WHITE);
+        usernamePanel.setBounds(20,100,150,50);
+
+        this.usernameField = new JTextField();
+        this.usernameField.setBounds(200,100,200,40);
+        this.usernameField.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel password = new JLabel();
+        password.setText("Password:");
+        password.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.add(password);
+        passwordPanel.setBackground(WHITE);
+        passwordPanel.setBounds(20,180,150,50);
+
+        this.passwordField = new JPasswordField();
+        this.passwordField.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.passwordField.setBounds(200,180,200,40);
+
+        this.loginButton = new JButton();
+        this.loginButton.setText("Login");
+        this.loginButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        this.loginButton.setBackground(WHITE);
+        this.loginButton.setBounds(50, 280, 400, 40);
+
+        JLabel moreText = new JLabel();
+        moreText.setText("Not a member?");
+        moreText.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JPanel moreTextPanel = new JPanel();
+        moreTextPanel.add(moreText);
+        moreTextPanel.setBackground(WHITE);
+        moreTextPanel.setBounds(125, 350, 150, 25);
+
+        this.signUpButton = new JButton();
+        this.signUpButton.setText("Sign up");
+        this.signUpButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.signUpButton.setBackground(WHITE);
+        this.signUpButton.setBounds(275,350,100,25);
+
+        this.logInPanel = new JPanel();
+        this.logInPanel.setBackground(WHITE);
+        this.logInPanel.setBounds(250,250,500,500);
+        this.logInPanel.setVisible(true);
+        this.logInPanel.setLayout(null);
+        this.logInPanel.add(titlePanel);
+        this.logInPanel.add(linePanel);
+        this.logInPanel.add(usernamePanel);
+        this.logInPanel.add(this.usernameField);
+        this.logInPanel.add(passwordPanel);
+        this.logInPanel.add(this.passwordField);
+        this.logInPanel.add(this.loginButton);
+        this.logInPanel.add(moreTextPanel);
+        this.logInPanel.add(this.signUpButton);
+
+        this.frame.add(this.logInPanel);
     }
 }
 
@@ -180,7 +278,7 @@ class GamePage implements Page, ActionListener {
         line = new JPanel();
         line.setVisible(true);
         line.setBounds(0,125,1000,2);
-        line.setBackground(Color.WHITE);
+        line.setBackground(WHITE);
 
         titleText = new JLabel();
         titleText.setText("Wordle");

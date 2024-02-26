@@ -43,7 +43,12 @@ public class Main {
             });
         });
         launchPage.getFrame().getLogInButton().addActionListener(e -> {
+            launchPage.getFrame().getStartButton().setVisible(false);
+            launchPage.getFrame().getInstructionsButton().setVisible(false);
+            launchPage.getFrame().getLogInButton().setVisible(false);
+            launchPage.getLabel().setVisible(false);
 
+            launchPage.displayLogIn();
         });
     }
 
