@@ -1,7 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -15,19 +15,33 @@ public class Main {
     private final static Color INCORRECT_COLOR = new Color(58,58,60,255);
     private static Color WRONG_PLACE_COLOR = new Color(181,159,59,255);
     private final static Color WHITE = new Color(255,255,255);
+    private final static Color BACKGROUND_COLOR = new Color(18,18,18,255);
     public static void setCorrectColor(Color correctColor) {
         CORRECT_COLOR = correctColor;
     }
     public static void setWrongPlaceColor(Color wrongPlaceColor) {
         WRONG_PLACE_COLOR = wrongPlaceColor;
     }
+    private static void addUsers(LaunchPage launchPage) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("utils/credentials.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] info = line.split(" ");
+            User user = new User(info[0], info[1]);
+            launchPage.getUsers().add(user);
+        }
+    }
 
     /*
      * The main method of the game.
      * It creates the launch page and sets the action listeners for the "Start" and "Instructions" buttons.
+     * You can also log in to your account from this page.
+     * Logging in will allow you to see your statistics and save your progress.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         LaunchPage launchPage = new LaunchPage();
+        Main.addUsers(launchPage);
+        launchPage.removeDuplicates();
 
         launchPage.getFrame().getStartButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
@@ -50,10 +64,30 @@ public class Main {
             launchPage.getLabel().setVisible(false);
 
             launchPage.displayLogIn();
+            launchPage.getGoBackButton().addActionListener(e1 -> {
+                launchPage.getLogInPanel().setVisible(false);
+                launchPage.getFrame().getStartButton().setVisible(true);
+                launchPage.getFrame().getInstructionsButton().setVisible(true);
+                launchPage.getFrame().getLogInButton().setVisible(true);
+                launchPage.getLabel().setVisible(true);
+            });
+
             launchPage.getLoginButton().addActionListener(e1 -> {
                 String username = launchPage.getUsernameField().getText();
                 String password = new String(launchPage.getPasswordField().getPassword());
+
+                if (!launchPage.checkIfUserExists(username, password)) {
+                    launchPage.getUserNotFound().setVisible(true);
+                } else {
+                    launchPage.setCurrentUser(launchPage.getUser(username, password));
+                    launchPage.getLogInPanel().setVisible(false);
+                    launchPage.getFrame().getStartButton().setVisible(true);
+                    launchPage.getFrame().getInstructionsButton().setVisible(true);
+                    launchPage.getFrame().getLogInButton().setVisible(true);
+                    launchPage.getLabel().setVisible(true);
+                }
             });
+
             launchPage.getSignUpButton().addActionListener(e1 -> {
                 launchPage.getLogInPanel().setVisible(false);
                 launchPage.displaySignUp();
@@ -61,9 +95,31 @@ public class Main {
                     String username = launchPage.getUsernameField().getText();
                     String password = new String(launchPage.getPasswordField().getPassword());
                     String confirmedPassword = new String(launchPage.getConfirmPasswordField().getPassword());
+
                     if (!(password.equals(confirmedPassword))) {
                         launchPage.getNotCorrectPanel().setVisible(true);
+                    } else if (launchPage.usernameAlreadyTaken(username)) {
+                        launchPage.getUsernameAlreadyTaken().setVisible(true);
+                    } else {
+                        FileWriter fw;
+                        try {
+                            fw = new FileWriter("utils/credentials.txt", true);
+                            fw.write(username + " " + password + "\n");
+                            fw.close();
+
+                            User user = new User(username, password);
+                            launchPage.getUsers().add(user);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        launchPage.getSignUpPanel().setVisible(false);
+                        launchPage.getLogInPanel().setVisible(true);
                     }
+                });
+
+                launchPage.getGoBackButton2().addActionListener(e2 -> {
+                    launchPage.getSignUpPanel().setVisible(false);
+                    launchPage.getLogInPanel().setVisible(true);
                 });
             });
         });
@@ -105,7 +161,7 @@ public class Main {
     public static void startGame(GamePage gamePage, String difficulty) throws IOException {
         /* The keyboard panel is created and added to the game page. */
         KeyboardPanel keyboard = new KeyboardPanel();
-        keyboard.setBackground(new Color(18,18,18,255));
+        keyboard.setBackground(BACKGROUND_COLOR);
         keyboard.setBounds(260, 700, 480, 210);
         keyboard.setVisible(true);
         gamePage.setKeyboard(keyboard);
@@ -228,7 +284,11 @@ public class Main {
                                 GamePage newGamePage = new GamePage();
                                 chooseDifficulty(newGamePage);
                             } else {
-                                Main.main(null);
+                                try {
+                                    Main.main(null);
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                             }
                         }
 
@@ -248,7 +308,11 @@ public class Main {
                                 GamePage newGamePage = new GamePage();
                                 chooseDifficulty(newGamePage);
                             } else {
-                                Main.main(null);
+                                try {
+                                    Main.main(null);
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                             }
                         }
                     }

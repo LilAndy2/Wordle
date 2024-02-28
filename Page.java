@@ -54,10 +54,19 @@ class LaunchPage implements Page {
     private JPanel signUpPanel;
     private JButton signUpFirstTimeButton;
     private JPanel notCorrectPanel;
+    private JButton goBackButton;
+    private JButton goBackButton2;
+    private final ArrayList<User> users;
+    private User currentUser;
+    private JPanel userNotFound;
+    private JPanel usernameAlreadyTaken;
     public LaunchPage() {
+        this.users = new ArrayList<>();
+
         this.label = new MyLabel(new ImageIcon("utils/images/wordle.jpg"), "Welcome to Wordle!",
                 JLabel.CENTER, JLabel.TOP, WHITE, new Font("MV Boli", Font.PLAIN, 50), -75,
                 BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 250, 150, 500, 500);
+
         this.frame = new LaunchFrame();
         this.frame.add(this.label);
     }
@@ -88,6 +97,13 @@ class LaunchPage implements Page {
     JPanel getSignUpPanel() {return this.signUpPanel;}
     JPasswordField getConfirmPasswordField() {return this.confirmPasswordField;}
     JPanel getNotCorrectPanel() {return this.notCorrectPanel;}
+    JButton getGoBackButton() {return this.goBackButton;}
+    JButton getGoBackButton2() {return this.goBackButton2;}
+    ArrayList<User> getUsers() {return this.users;}
+    void setCurrentUser(User currentUser) {this.currentUser = currentUser;}
+    User getCurrentUser() {return this.currentUser;}
+    JPanel getUserNotFound() {return this.userNotFound;}
+    JPanel getUsernameAlreadyTaken() {return this.usernameAlreadyTaken;}
     ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
 
     void displayLogIn() {
@@ -162,6 +178,24 @@ class LaunchPage implements Page {
         this.signUpButton.setBackground(WHITE);
         this.signUpButton.setBounds(275,350,100,25);
 
+        this.goBackButton = new JButton();
+        this.goBackButton.setText("Go back");
+        this.goBackButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.goBackButton.setBackground(WHITE);
+        this.goBackButton.setBounds(0, 0, 100, 25);
+
+        JLabel userNotFoundText = new JLabel();
+        userNotFoundText.setText("User not found!");
+        userNotFoundText.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        userNotFoundText.setBackground(WHITE);
+        userNotFoundText.setForeground(Color.RED);
+
+        this.userNotFound = new JPanel();
+        this.userNotFound.add(userNotFoundText);
+        this.userNotFound.setBounds(175, 230, 150, 25);
+        this.userNotFound.setBackground(WHITE);
+        this.userNotFound.setVisible(false);
+
         this.logInPanel = new JPanel();
         this.logInPanel.setBackground(WHITE);
         this.logInPanel.setBounds(250,250,500,500);
@@ -176,6 +210,8 @@ class LaunchPage implements Page {
         this.logInPanel.add(this.loginButton);
         this.logInPanel.add(moreTextPanel);
         this.logInPanel.add(this.signUpButton);
+        this.logInPanel.add(this.goBackButton);
+        this.logInPanel.add(this.userNotFound);
 
         this.frame.add(this.logInPanel);
     }
@@ -257,6 +293,24 @@ class LaunchPage implements Page {
         this.notCorrectPanel.setBackground(WHITE);
         this.notCorrectPanel.setVisible(false);
 
+        JLabel userAlreadyExistsText = new JLabel();
+        userAlreadyExistsText.setText("Username already taken!");
+        userAlreadyExistsText.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        userAlreadyExistsText.setBackground(WHITE);
+        userAlreadyExistsText.setForeground(Color.RED);
+
+        this.usernameAlreadyTaken = new JPanel();
+        this.usernameAlreadyTaken.add(userAlreadyExistsText);
+        this.usernameAlreadyTaken.setBounds(125, 370, 250, 40);
+        this.usernameAlreadyTaken.setBackground(WHITE);
+        this.usernameAlreadyTaken.setVisible(false);
+
+        this.goBackButton2 = new JButton();
+        this.goBackButton2.setText("Go back");
+        this.goBackButton2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.goBackButton2.setBackground(WHITE);
+        this.goBackButton2.setBounds(0, 0, 100, 25);
+
         this.signUpPanel = new JPanel();
         this.signUpPanel.setBackground(WHITE);
         this.signUpPanel.setBounds(250,250,500,500);
@@ -272,8 +326,43 @@ class LaunchPage implements Page {
         this.signUpPanel.add(confirmPasswordField);
         this.signUpPanel.add(this.signUpFirstTimeButton);
         this.signUpPanel.add(notCorrectPanel);
+        this.signUpPanel.add(this.goBackButton2);
+        this.signUpPanel.add(this.usernameAlreadyTaken);
 
         this.frame.add(this.signUpPanel);
+    }
+    public boolean checkIfUserExists(String username, String password) {
+        for (User user : this.users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public User getUser(String username, String password) {
+        for (User user : this.users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    public void removeDuplicates() {
+        for (int i = 0; i < this.users.size(); i++) {
+            for (int j = i + 1; j < this.users.size(); j++) {
+                if (this.users.get(i).getUsername().equals(this.users.get(j).getUsername())) {
+                    this.users.remove(j);
+                }
+            }
+        }
+    }
+    public boolean usernameAlreadyTaken(String username) {
+        for (User user : this.users) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
