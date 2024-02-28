@@ -22,13 +22,48 @@ public class Main {
     public static void setWrongPlaceColor(Color wrongPlaceColor) {
         WRONG_PLACE_COLOR = wrongPlaceColor;
     }
-    private static void addUsers(LaunchPage launchPage) throws IOException {
+    private static void addUsers() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("utils/credentials.txt"));
         String line;
         while ((line = br.readLine()) != null) {
             String[] info = line.split(" ");
             User user = new User(info[0], info[1]);
-            launchPage.getUsers().add(user);
+            users.add(user);
+        }
+    }
+    private static User userLoggedIn;
+    private static final ArrayList<User> users = new ArrayList<>();
+    public static boolean checkIfUserExists(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static User getUser(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    public static boolean usernameAlreadyTaken(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void removeDuplicates() {
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = i + 1; j < users.size(); j++) {
+                if (users.get(i).getUsername().equals(users.get(j).getUsername())) {
+                    users.remove(j);
+                }
+            }
         }
     }
 
@@ -40,15 +75,31 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         LaunchPage launchPage = new LaunchPage();
-        Main.addUsers(launchPage);
-        launchPage.removeDuplicates();
+        Main.addUsers();
+        Main.removeDuplicates();
 
+        /* The buttons are set accordingly if the user is logged in. */
+        if (userLoggedIn != null) {
+            launchPage.getFrame().getStartButton().setBounds(200, 700, 125, 50);
+            launchPage.getFrame().getInstructionsButton().setBounds(675, 700, 125, 50);
+            launchPage.getFrame().getLogInButton().setVisible(false);
+            launchPage.getLogOutButton().setVisible(true);
+            launchPage.getStatsButton().setVisible(true);
+        } else {
+            launchPage.getFrame().getStartButton().setBounds(300, 700, 125, 50);
+            launchPage.getFrame().getInstructionsButton().setBounds(575, 700, 125, 50);
+            launchPage.getFrame().getLogInButton().setVisible(true);
+            launchPage.getStatsButton().setVisible(false);
+        }
+
+        /* The action listeners for the "Start" button is set. */
         launchPage.getFrame().getStartButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
             GamePage gamePage = new GamePage();
             chooseDifficulty(gamePage);
-
         });
+
+        /* The action listeners for the "Instructions" button is set. */
         launchPage.getFrame().getInstructionsButton().addActionListener(e -> {
             launchPage.getFrame().dispose();
             InstructionsPage instructionsPage = new InstructionsPage();
@@ -57,12 +108,25 @@ public class Main {
                 launchPage.getFrame().setVisible(true);
             });
         });
+
+        /* The action listeners for the "Log out" button is set. */
+        launchPage.getLogOutButton().addActionListener(e -> {
+            userLoggedIn = null;
+            launchPage.getLogOutButton().setVisible(false);
+            launchPage.getFrame().getLogInButton().setVisible(true);
+            launchPage.getStatsButton().setVisible(false);
+            launchPage.getFrame().getStartButton().setBounds(300, 700, 125, 50);
+            launchPage.getFrame().getInstructionsButton().setBounds(575, 700, 125, 50);
+        });
+
+        /* The action listeners for the "Log in" button is set. */
         launchPage.getFrame().getLogInButton().addActionListener(e -> {
             launchPage.getFrame().getStartButton().setVisible(false);
             launchPage.getFrame().getInstructionsButton().setVisible(false);
             launchPage.getFrame().getLogInButton().setVisible(false);
             launchPage.getLabel().setVisible(false);
 
+            /* The log in panel is displayed and the action listeners for the buttons are set. */
             launchPage.displayLogIn();
             launchPage.getGoBackButton().addActionListener(e1 -> {
                 launchPage.getLogInPanel().setVisible(false);
@@ -73,22 +137,36 @@ public class Main {
             });
 
             launchPage.getLoginButton().addActionListener(e1 -> {
+                /*
+                 * The username and password are retrieved from the text fields.
+                 * A message is displayed if the user doesn't exist.
+                 * If the authentication went well, the app returns to the launch page.
+                 * The user logged in will be able to see his/her stats.
+                 */
                 String username = launchPage.getUsernameField().getText();
                 String password = new String(launchPage.getPasswordField().getPassword());
 
-                if (!launchPage.checkIfUserExists(username, password)) {
+                if (!Main.checkIfUserExists(username, password)) {
                     launchPage.getUserNotFound().setVisible(true);
                 } else {
-                    launchPage.setCurrentUser(launchPage.getUser(username, password));
+                    /* The user is logged in and the buttons are set accordingly. */
+                    userLoggedIn = Main.getUser(username, password);
                     launchPage.getLogInPanel().setVisible(false);
                     launchPage.getFrame().getStartButton().setVisible(true);
                     launchPage.getFrame().getInstructionsButton().setVisible(true);
-                    launchPage.getFrame().getLogInButton().setVisible(true);
+                    launchPage.getLogOutButton().setVisible(true);
                     launchPage.getLabel().setVisible(true);
+                    launchPage.getFrame().getStartButton().setBounds(200, 700, 125, 50);
+                    launchPage.getFrame().getInstructionsButton().setBounds(675, 700, 125, 50);
+                    launchPage.getStatsButton().setVisible(true);
                 }
             });
 
             launchPage.getSignUpButton().addActionListener(e1 -> {
+                /*
+                 * The sign-up panel is displayed and the action listeners for the buttons are set.
+                 * The user can sign up and create an account.
+                 */
                 launchPage.getLogInPanel().setVisible(false);
                 launchPage.displaySignUp();
                 launchPage.getSignUpFirstTimeButton().addActionListener(e2 -> {
@@ -98,7 +176,7 @@ public class Main {
 
                     if (!(password.equals(confirmedPassword))) {
                         launchPage.getNotCorrectPanel().setVisible(true);
-                    } else if (launchPage.usernameAlreadyTaken(username)) {
+                    } else if (Main.usernameAlreadyTaken(username)) {
                         launchPage.getUsernameAlreadyTaken().setVisible(true);
                     } else {
                         FileWriter fw;
@@ -108,7 +186,7 @@ public class Main {
                             fw.close();
 
                             User user = new User(username, password);
-                            launchPage.getUsers().add(user);
+                            users.add(user);
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -121,6 +199,16 @@ public class Main {
                     launchPage.getSignUpPanel().setVisible(false);
                     launchPage.getLogInPanel().setVisible(true);
                 });
+            });
+        });
+
+        /* The action listeners for the "Stats" button is set. */
+        launchPage.getStatsButton().addActionListener(e -> {
+            launchPage.getFrame().dispose();
+            StatsPage statsPage = new StatsPage(userLoggedIn);
+            statsPage.getFrame().getBackButton().addActionListener(e1 -> {
+                statsPage.getFrame().dispose();
+                launchPage.getFrame().setVisible(true);
             });
         });
     }

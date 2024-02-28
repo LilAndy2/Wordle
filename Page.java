@@ -50,6 +50,8 @@ class LaunchPage implements Page {
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
     private JButton loginButton;
+    private final JButton logOutButton;
+    private final JButton statsButton;
     private JButton signUpButton;
     private JPanel signUpPanel;
     private JButton signUpFirstTimeButton;
@@ -67,8 +69,26 @@ class LaunchPage implements Page {
                 JLabel.CENTER, JLabel.TOP, WHITE, new Font("MV Boli", Font.PLAIN, 50), -75,
                 BACKGROUND_COLOR, JLabel.CENTER, JLabel.CENTER, 250, 150, 500, 500);
 
+        this.logOutButton = new JButton();
+        this.logOutButton.setText("Log out");
+        this.logOutButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        this.logOutButton.setBackground(BACKGROUND_COLOR);
+        this.logOutButton.setForeground(WHITE);
+        this.logOutButton.setBounds(850, 10, 125, 50);
+        this.logOutButton.setVisible(false);
+
+        this.statsButton = new JButton();
+        this.statsButton.setText("Stats");
+        this.statsButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        this.statsButton.setBackground(WHITE);
+        this.statsButton.setForeground(BLACK);
+        this.statsButton.setBounds(445, 700, 125, 50);
+        this.statsButton.setVisible(false);
+
         this.frame = new LaunchFrame();
         this.frame.add(this.label);
+        this.frame.add(this.logOutButton);
+        this.frame.add(this.statsButton);
     }
 
     ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
@@ -99,11 +119,10 @@ class LaunchPage implements Page {
     JPanel getNotCorrectPanel() {return this.notCorrectPanel;}
     JButton getGoBackButton() {return this.goBackButton;}
     JButton getGoBackButton2() {return this.goBackButton2;}
-    ArrayList<User> getUsers() {return this.users;}
-    void setCurrentUser(User currentUser) {this.currentUser = currentUser;}
-    User getCurrentUser() {return this.currentUser;}
     JPanel getUserNotFound() {return this.userNotFound;}
     JPanel getUsernameAlreadyTaken() {return this.usernameAlreadyTaken;}
+    JButton getLogOutButton() {return this.logOutButton;}
+    JButton getStatsButton() {return this.statsButton;}
     ////////////////////////////// GETTERS AND SETTERS //////////////////////////////
 
     void displayLogIn() {
@@ -330,39 +349,6 @@ class LaunchPage implements Page {
         this.signUpPanel.add(this.usernameAlreadyTaken);
 
         this.frame.add(this.signUpPanel);
-    }
-    public boolean checkIfUserExists(String username, String password) {
-        for (User user : this.users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public User getUser(String username, String password) {
-        for (User user : this.users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return user;
-            }
-        }
-        return null;
-    }
-    public void removeDuplicates() {
-        for (int i = 0; i < this.users.size(); i++) {
-            for (int j = i + 1; j < this.users.size(); j++) {
-                if (this.users.get(i).getUsername().equals(this.users.get(j).getUsername())) {
-                    this.users.remove(j);
-                }
-            }
-        }
-    }
-    public boolean usernameAlreadyTaken(String username) {
-        for (User user : this.users) {
-            if (user.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
 
@@ -758,5 +744,23 @@ class GamePage implements Page, ActionListener {
                 gamePage.getFrame().repaint();
             });
         });
+    }
+}
+
+class StatsPage implements Page {
+    /*
+     * Class for the stats page of the game.
+     * Contains the frame for the stats page.
+     * Also contains the stats table and the back button.
+     */
+    private final User user;
+    private final StatsFrame frame;
+    public StatsPage(User user) {
+        this.user = user;
+
+        this.frame = new StatsFrame();
+    }
+    StatsFrame getFrame() {
+        return this.frame;
     }
 }

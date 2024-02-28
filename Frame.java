@@ -134,3 +134,31 @@ class GameFrame extends JFrame implements Frame {
         return this.hardButton;
     }
 }
+
+class StatsFrame extends JFrame implements Frame {
+    /*
+     * Class for the stats frame.
+     * Contains and initialises the "Go back" button.
+     */
+    private final MyButton backButton;
+    public StatsFrame() {
+        this.backButton = new MyButton("Go back", 0, 0, 125, 50,
+                new Font("Times New Roman", Font.BOLD, 20), BACKGROUND_COLOR, WHITE);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setTitle("Stats");
+        this.setSize(1000,1000);
+        this.setVisible(true);
+        this.setLayout(null);
+
+        ImageIcon icon = new ImageIcon("utils/images/logo.jpg");
+        this.setIconImage(icon.getImage());
+        this.getContentPane().setBackground(BACKGROUND_COLOR);
+
+        this.add(this.backButton);
+    }
+    public MyButton getBackButton() {
+        return this.backButton;
+    }
+}
